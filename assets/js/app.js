@@ -1,19 +1,22 @@
 const baseEndpoint = 'https://api.github.com';
 const usersEndpoint = `${baseEndpoint}/users`;
-const $n = document.querySelector('.name');  // Se corrigió el nombre del selector
-const $b = document.querySelector('#blog');
+const $n = document.querySelector('.name');  // Corregido el nombre del selector
+const $b = document.querySelector('.blog');
 const $l = document.querySelector('.location');
 
-async function displayUser(username) {  // Faltaba la palabra clave 'async'
-  $n.textContent = 'cargando...';
-  try {  // Se agrega la estructura try para manejar errores
+async function displayUser(username) {
+  $n.textContent = 'Cargando...';  // Cambiado el texto a "Cargando..."
+  $b.textContent = 'Cargando...';
+  $l.textContent = 'Cargando...';
+  
+  try {
     const response = await fetch(`${usersEndpoint}/${username}`);
-    const data = await response.json();  // Se agrega el await
+    const data = await response.json();  // Agregado el await
     console.log(data);
-    $n.textContent = data.name;  // Se quitaron las comillas simples
-    $b.textContent = data.blog;  // "           "                "
-    $l.textContent = data.location;  // "         "              "
-  } catch (err) {  // Se agregó 'catch' para manejar errores
+    $n.textContent = `Nombre: ${data.name}`;  // Corregido el uso de comillas y añadido el prefijo "Nombre: "
+    $b.textContent = `Blog: ${data.blog}`;
+    $l.textContent = `Ubicación: ${data.location}`;
+  } catch (err) {
     handleError(err);
   }
 }
@@ -21,7 +24,7 @@ async function displayUser(username) {  // Faltaba la palabra clave 'async'
 function handleError(err) {
   console.log('OH NO!');
   console.log(err);
-  $n.textContent = `Algo salió mal: ${err}`;  // Agregada la '$' antes de 'n'
+  $n.textContent = `Algo salió mal: ${err}`;
 }
 
 displayUser('stolinski').catch(handleError);
